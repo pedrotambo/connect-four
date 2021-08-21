@@ -41,6 +41,10 @@ class ConnectFourGame:
     def is_over(self):
         return self.was_won or self.was_tied
 
+    @property
+    def board(self):
+        return [[self._board[x][y] for x in range(self.width)] for y in reversed(range(self.height))]
+
     def drop_checker_on_column(self, column_number):
         self._validate_move(column_number)
         self._update_game(column_number)

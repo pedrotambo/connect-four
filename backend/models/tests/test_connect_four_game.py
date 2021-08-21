@@ -48,9 +48,10 @@ def test_cant_put_more_discs_in_same_column_than_board_height():
     height = 7
     game = ConnectFourGame(6, height)
     column_number = 0
+    for i in range(height):
+        game.drop_checker_on_column(column_number)
     with pytest.raises(ConnectFourException) as ex:
-        for i in range(height + 1):
-            game.drop_checker_on_column(column_number)
+        game.drop_checker_on_column(column_number)
     assert (str(ex.value)) == f'Column {column_number} is full.'
 
 
@@ -93,13 +94,14 @@ def test_player_1_wins_horizontally_at_the_end_of_first_row():
     assert game.was_won
     assert game.winner == 1
     assert game.is_over
-    assert game.print_board_state() == """\
-0 0 0 0 0 0 0
-0 0 0 0 0 0 0
-0 0 0 0 0 0 0
-2 0 0 0 0 0 0
-1 2 2 0 0 0 0
-1 2 2 1 1 1 1"""
+    assert game.board == [
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [2, 0, 0, 0, 0, 0, 0],
+        [1, 2, 2, 0, 0, 0, 0],
+        [1, 2, 2, 1, 1, 1, 1]
+    ]
 
 
 def test_player_1_wins_vertically_at_the_beginning_of_first_column():
@@ -117,13 +119,14 @@ def test_player_1_wins_vertically_at_the_beginning_of_first_column():
     assert game.was_won
     assert game.winner == 1
     assert game.is_over
-    assert game.print_board_state() == """\
-0 0 0 0 0 0 0
-0 0 0 0 0 0 0
-1 0 0 0 0 0 0
-1 2 0 0 0 0 0
-1 2 0 0 0 0 0
-1 2 0 0 0 0 0"""
+    assert game.board == [
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0],
+        [1, 2, 0, 0, 0, 0, 0],
+        [1, 2, 0, 0, 0, 0, 0],
+        [1, 2, 0, 0, 0, 0, 0]
+    ]
 
 
 def test_player_1_wins_vertically_at_end_of_first_column():
@@ -140,13 +143,14 @@ def test_player_1_wins_vertically_at_end_of_first_column():
     [game.drop_checker_on_column(c) for c in [1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 2, 0]]
     assert game.was_won
     assert game.winner == 1
-    assert game.print_board_state() == """\
-1 2 0 0 0 0 0
-1 2 0 0 0 0 0
-1 2 0 0 0 0 0
-1 1 0 0 0 0 0
-2 1 0 0 0 0 0
-2 1 2 0 0 0 0"""
+    assert game.board == [
+        [1, 2, 0, 0, 0, 0, 0],
+        [1, 2, 0, 0, 0, 0, 0],
+        [1, 2, 0, 0, 0, 0, 0],
+        [1, 1, 0, 0, 0, 0, 0],
+        [2, 1, 0, 0, 0, 0, 0],
+        [2, 1, 2, 0, 0, 0, 0]
+    ]
 
 
 def test_player_1_wins_diagonally_at_beginning_of_the_main_diagonal():
@@ -164,13 +168,14 @@ def test_player_1_wins_diagonally_at_beginning_of_the_main_diagonal():
     assert game.was_won
     assert game.winner == 1
     assert game.is_over
-    assert game.print_board_state() == """\
-0 0 0 0 0 0 0
-0 0 0 0 0 0 0
-0 0 0 1 0 0 0
-0 0 1 1 0 0 0
-2 1 2 2 0 0 0
-1 2 2 1 0 0 0"""
+    assert game.board == [
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 1, 1, 0, 0, 0],
+        [2, 1, 2, 2, 0, 0, 0],
+        [1, 2, 2, 1, 0, 0, 0]
+    ]
 
 
 def test_player_1_wins_diagonally_at_end_of_the_main_diagonal():
@@ -188,13 +193,14 @@ def test_player_1_wins_diagonally_at_end_of_the_main_diagonal():
     assert game.was_won
     assert game.winner == 1
     assert game.is_over
-    assert game.print_board_state() == """\
-0 0 0 0 0 2 1
-0 0 0 0 0 1 1
-0 0 0 0 1 2 2
-0 0 0 1 2 2 2
-0 0 0 2 1 1 1
-0 0 0 1 2 2 1"""
+    assert game.board == [
+        [0, 0, 0, 0, 0, 2, 1],
+        [0, 0, 0, 0, 0, 1, 1],
+        [0, 0, 0, 0, 1, 2, 2],
+        [0, 0, 0, 1, 2, 2, 2],
+        [0, 0, 0, 2, 1, 1, 1],
+        [0, 0, 0, 1, 2, 2, 1]
+    ]
 
 
 def test_player_1_wins_diagonally_at_the_beginning_of_the_anti_diagonal():
@@ -212,13 +218,14 @@ def test_player_1_wins_diagonally_at_the_beginning_of_the_anti_diagonal():
     assert game.was_won
     assert game.winner == 1
     assert game.is_over
-    assert game.print_board_state() == """\
-0 0 0 0 0 0 0
-0 0 0 0 0 0 0
-0 0 0 1 0 0 0
-0 0 0 2 1 0 0
-0 0 0 1 1 1 2
-0 0 0 2 2 2 1"""
+    assert game.board == [
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 0, 2, 1, 0, 0],
+        [0, 0, 0, 1, 1, 1, 2],
+        [0, 0, 0, 2, 2, 2, 1]
+    ]
 
 
 def test_cant_play_after_game_is_over():
@@ -259,10 +266,12 @@ def test_game_was_tied():
     assert game.was_tied
     assert not game.was_won
     assert game.winner is None
-    assert game.print_board_state() == """\
-2 2 2 1 2 2 2
-1 1 1 2 1 1 1
-2 2 2 1 2 2 2
-1 1 1 2 1 1 1
-2 2 2 1 2 2 2
-1 1 1 2 1 1 1"""
+    assert game.board == [
+        [2, 2, 2, 1, 2, 2, 2],
+        [1, 1, 1, 2, 1, 1, 1],
+        [2, 2, 2, 1, 2, 2, 2],
+        [1, 1, 1, 2, 1, 1, 1],
+        [2, 2, 2, 1, 2, 2, 2],
+        [1, 1, 1, 2, 1, 1, 1]
+    ]
+
