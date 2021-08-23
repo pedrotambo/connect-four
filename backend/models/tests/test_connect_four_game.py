@@ -1,5 +1,5 @@
 import pytest
-from models.ConnectFourGame import ConnectFourGame, ConnectFourException
+from models.connect_four_game import ConnectFourGame, ConnectFourException
 
 
 @pytest.fixture
@@ -22,6 +22,14 @@ def test_cant_put_in_column_smaller_than_0(game):
     with pytest.raises(ConnectFourException) as ex:
         game.drop_checker_on_column(-1)
     assert (str(ex.value)) == "Can't play on column bigger or equal than the width, or less than 0."
+
+
+def test_cant_get_board_of_non_player(game):
+    game = ConnectFourGame(7, 6, "player1", "player2")
+
+    with pytest.raises(ConnectFourException) as ex:
+        game.board("non-playing player")
+    assert (str(ex.value)) == "Can't get board of non-playing player"
 
 
 def test_starts_playing_1(game):
@@ -91,7 +99,7 @@ def test_player_1_wins_horizontally_at_the_end_of_first_row(game):
     assert game.was_won
     assert game.winner == "player1"
     assert game.is_over
-    assert game.board == [
+    assert game.board("player1") == [
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
@@ -115,7 +123,7 @@ def test_player_1_wins_vertically_at_the_beginning_of_first_column(game):
     assert game.was_won
     assert game.winner == "player1"
     assert game.is_over
-    assert game.board == [
+    assert game.board("player1") == [
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
         [1, 0, 0, 0, 0, 0, 0],
@@ -138,7 +146,7 @@ def test_player_1_wins_vertically_at_end_of_first_column(game):
     [game.drop_checker_on_column(c) for c in [1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 2, 0]]
     assert game.was_won
     assert game.winner == "player1"
-    assert game.board == [
+    assert game.board("player1") == [
         [1, 2, 0, 0, 0, 0, 0],
         [1, 2, 0, 0, 0, 0, 0],
         [1, 2, 0, 0, 0, 0, 0],
@@ -162,7 +170,7 @@ def test_player_1_wins_diagonally_at_beginning_of_the_main_diagonal(game):
     assert game.was_won
     assert game.winner == "player1"
     assert game.is_over
-    assert game.board == [
+    assert game.board("player1") == [
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 1, 0, 0, 0],
@@ -186,7 +194,7 @@ def test_player_1_wins_diagonally_at_end_of_the_main_diagonal(game):
     assert game.was_won
     assert game.winner == "player1"
     assert game.is_over
-    assert game.board == [
+    assert game.board("player1") == [
         [0, 0, 0, 0, 0, 2, 1],
         [0, 0, 0, 0, 0, 1, 1],
         [0, 0, 0, 0, 1, 2, 2],
@@ -210,7 +218,7 @@ def test_player_1_wins_diagonally_at_the_beginning_of_the_anti_diagonal(game):
     assert game.was_won
     assert game.winner == "player1"
     assert game.is_over
-    assert game.board == [
+    assert game.board("player1") == [
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 1, 0, 0, 0],
@@ -255,7 +263,7 @@ def test_game_was_tied(game):
     assert game.was_tied
     assert not game.was_won
     assert game.winner is None
-    assert game.board == [
+    assert game.board("player1") == [
         [2, 2, 2, 1, 2, 2, 2],
         [1, 1, 1, 2, 1, 1, 1],
         [2, 2, 2, 1, 2, 2, 2],

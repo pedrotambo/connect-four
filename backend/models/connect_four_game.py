@@ -3,7 +3,7 @@ import itertools
 
 class ConnectFourGame:
 
-    def __init__(self, width, height, player1_name="player1", player2_name="player2"):
+    def __init__(self, width, height, player1_name, player2_name):
         self._width = width
         self._height = height
         self._player_1_name = player1_name
@@ -44,16 +44,18 @@ class ConnectFourGame:
         return self.was_won or self.was_tied
 
     @property
-    def board(self):
-        return [[self._board[x][y] for x in range(self.width)] for y in reversed(range(self.height))]
-
-    @property
     def player_1_name(self):
         return self._player_1_name
 
     @property
     def player_2_name(self):
-        return self._player_1_name
+        return self._player_2_name
+
+    def board(self, player_name):
+        if player_name not in [self.player_1_name, self.player_2_name]:
+            raise ConnectFourException("Can't get board of non-playing player")
+        player_1_board = [[self._board[x][y] for x in range(self.width)] for y in reversed(range(self.height))]
+        return player_1_board if player_name == self.player_1_name else [list(reversed(row)) for row in player_1_board]
 
     def drop_checker_on_column(self, column_number):
         self._validate_move(column_number)

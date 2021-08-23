@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pickleshare import PickleShareDB
-from models.ConnectFourGame import ConnectFourGame
+from models.connect_four_game import ConnectFourGame
 
 app = FastAPI()
 game_repository = PickleShareDB('./games_db')
@@ -27,10 +27,7 @@ def get_board(player_id: str):
     if player_id not in [player_1_id, player_2_id]:
         raise HTTPException(status_code=404, detail="Player not found")
     game = game_repository[multiplayer_game_id]
-    player1_board = game.board
-    board = player1_board if player_id == player_1_id else [list(reversed(row)) for row in player1_board]
-    plays = True if game.current_player == player_id else False
-    return {"board": board, "plays": plays}
+    return {"board": game.board(player_id), "plays": True if game.current_player == player_id else False}
 
 
 @app.get("/games/{player_id}/drops/{column_number}")
