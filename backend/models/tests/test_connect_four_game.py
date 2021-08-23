@@ -76,13 +76,14 @@ def test_player_1_wins_horizontally_at_the_beginning_of_first_row(game):
     assert game.was_won
     assert game.winner == "player1"
     assert game.is_over
-    assert game.print_board_state() == """\
-0 0 0 0 0 0 0
-0 0 0 0 0 0 0
-0 0 0 0 0 0 0
-0 0 0 0 0 0 0
-2 2 2 0 0 0 0
-1 1 1 1 0 0 0"""
+    assert game.board("player1") == [
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [2, 2, 2, 0, 0, 0, 0],
+        [1, 1, 1, 1, 0, 0, 0]
+    ]
 
 
 def test_player_1_wins_horizontally_at_the_end_of_first_row(game):
@@ -271,3 +272,15 @@ def test_game_was_tied(game):
         [2, 2, 2, 1, 2, 2, 2],
         [1, 1, 1, 2, 1, 1, 1]
     ]
+
+
+def test_all_columns_are_available_when_empty_game(game):
+    assert game.available_column_numbers() == list(range(game.width))
+
+
+def test_column_is_not_available_when_it_is_full(game):
+    full_column_number = 0
+    [game.drop_checker_on_column(c) for c in [full_column_number for _ in range(game.height)]]
+    assert full_column_number not in game.available_column_numbers()
+    for available_column_number in range(1, game.height):
+        assert available_column_number in game.available_column_numbers()

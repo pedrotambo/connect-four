@@ -1,4 +1,5 @@
 import itertools
+import threading
 
 
 class ConnectFourGame:
@@ -14,6 +15,7 @@ class ConnectFourGame:
         self._is_over = False
         self._was_won = False
         self._winner = None
+        self._mutex = threading.Lock()
 
     @property
     def width(self):
@@ -57,9 +59,15 @@ class ConnectFourGame:
         player_1_board = [[self._board[x][y] for x in range(self.width)] for y in reversed(range(self.height))]
         return player_1_board if player_name == self.player_1_name else [list(reversed(row)) for row in player_1_board]
 
+    def available_column_numbers(self):
+        return [column_number for column_number in range(self.width) if
+                self._next_free_row_number_by_column[column_number] < self.height]
+
     def drop_checker_on_column(self, column_number):
+        self._mutex.acquire()
         self._validate_move(column_number)
         self._update_game(column_number)
+        self._mutex.release()
 
     def _validate_move(self, column_number):
         if not 0 <= column_number < self._width:
@@ -103,14 +111,10 @@ class ConnectFourGame:
         return None
 
     def _update_current_player(self):
-        # self._current_player = 1 if self.current_player == 2 else 2
         self._current_player = self._player_1_name if self.current_player == self._player_2_name else self._player_2_name
 
     def _board_is_full(self):
         return all([self._board[x][y] for (x, y) in list(itertools.product(range(self.width), range(self.height)))])
-
-    def print_board_state(self):
-        return '\n'.join([' '.join([str(self._board[x][y]) for x in range(self.width)]) for y in reversed(range(self.height))])
 
 
 class ConnectFourException(Exception):
