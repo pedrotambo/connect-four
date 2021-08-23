@@ -3,12 +3,14 @@ import itertools
 
 class ConnectFourGame:
 
-    def __init__(self, width, height):
+    def __init__(self, width, height, player1_name="player1", player2_name="player2"):
         self._width = width
         self._height = height
+        self._player_1_name = player1_name
+        self._player_2_name = player2_name
         self._board = [[0 for _ in range(height)] for _ in range(width)]
         self._next_free_row_number_by_column = dict.fromkeys(range(width), 0)
-        self._current_player = 1
+        self._current_player = player1_name
         self._is_over = False
         self._was_won = False
         self._winner = None
@@ -45,6 +47,14 @@ class ConnectFourGame:
     def board(self):
         return [[self._board[x][y] for x in range(self.width)] for y in reversed(range(self.height))]
 
+    @property
+    def player_1_name(self):
+        return self._player_1_name
+
+    @property
+    def player_2_name(self):
+        return self._player_1_name
+
     def drop_checker_on_column(self, column_number):
         self._validate_move(column_number)
         self._update_game(column_number)
@@ -60,7 +70,8 @@ class ConnectFourGame:
             raise ConnectFourException("Can't play, game is over!")
 
     def _update_game(self, column_number):
-        self._update_board_with_move_on(self._current_player, column_number)
+        current_player_id = 1 if self._current_player == self.player_1_name else 2
+        self._update_board_with_move_on(current_player_id, column_number)
         self._update_if_was_won()
         self._update_current_player()
 
@@ -77,7 +88,8 @@ class ConnectFourGame:
         potential_winners = [horizontal_winner, vertical_winner, main_diagonal_winner, anti_diagonal_winner]
         if any(potential_winners):
             self._was_won = True
-            self._winner = [winner for winner in potential_winners if winner is not None][0]
+            winner_id = [winner for winner in potential_winners if winner is not None][0]
+            self._winner = self.player_1_name if winner_id == 1 else self.player_2_name
             self._is_over = True
 
     def _board_winner(self, x_range, y_range, x_increment, y_increment):
@@ -89,7 +101,8 @@ class ConnectFourGame:
         return None
 
     def _update_current_player(self):
-        self._current_player = 1 if self.current_player == 2 else 2
+        # self._current_player = 1 if self.current_player == 2 else 2
+        self._current_player = self._player_1_name if self.current_player == self._player_2_name else self._player_2_name
 
     def _board_is_full(self):
         return all([self._board[x][y] for (x, y) in list(itertools.product(range(self.width), range(self.height)))])

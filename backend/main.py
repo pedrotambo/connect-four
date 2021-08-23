@@ -1,17 +1,16 @@
-from typing import List
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
 from pickleshare import PickleShareDB
-from ConnectionManager import ConnectionManager
 from models.ConnectFourGame import ConnectFourGame
 
 app = FastAPI()
-gameRepository = PickleShareDB('./games_db')
-gameId = 'game1'
-savedGame = gameRepository.get(gameId)
+game_repository = PickleShareDB('./games_db')
+multiplayer_game_id = 'game1'
+player_1_id = "1"
+player_2_id = "2"
+savedGame = game_repository.get(multiplayer_game_id)
 if not savedGame:
-    gameRepository[gameId] = ConnectFourGame(7, 6)
+    game_repository[multiplayer_game_id] = ConnectFourGame(7, 6, player_1_id, player_2_id)
 
 
 app.add_middleware(
@@ -24,39 +23,29 @@ app.add_middleware(
 
 
 @app.get("/games/{player_id}")
-def get_board(player_id: int):
-    if player_id not in [1, 2]:
+def get_board(player_id: str):
+    if player_id not in [player_1_id, player_2_id]:
         raise HTTPException(status_code=404, detail="Player not found")
-    player1_board = gameRepository[gameId].board
-    board = player1_board if player_id == 1 else [list(reversed(row)) for row in player1_board]
-    return {"board": board}
+    game = game_repository[multiplayer_game_id]
+    player1_board = game.board
+    board = player1_board if player_id == player_1_id else [list(reversed(row)) for row in player1_board]
+    plays = True if game.current_player == player_id else False
+    return {"board": board, "plays": plays}
 
 
 @app.get("/games/{player_id}/drops/{column_number}")
-def drop_checker(player_id: int, column_number: int):
-    game = gameRepository[gameId]
+def drop_checker(player_id: str, column_number: int):
+    game = game_repository[multiplayer_game_id]
     if game.current_player == player_id:
         game.drop_checker_on_column(column_number)
-        gameRepository[gameId] = game
+        game_repository[multiplayer_game_id] = game
         return {"message": "successful move"}
     else:
         return {"error": f"it's not {player_id}'s turn"}
 
 
-@app.get("/reset")
-def reset_game():
-    gameRepository[gameId] = ConnectFourGame(7, 6)
+@app.get("/reset/{game_id}")
+def reset_game(game_id: str):
+    game_repository[game_id] = ConnectFourGame(7, 6, player_1_id, player_2_id)
     return {"message": "game restarted OK"}
 
-
-@app.websocket("/ws/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: int):
-    await connectionManager.connect(websocket)
-    try:
-        while True:
-            data = await websocket.receive_text()
-            await connectionManager.send_personal_message(f"You wrote: {data}", websocket)
-            await connectionManager.broadcast(f"Client #{client_id} says: {data}")
-    except WebSocketDisconnect:
-        connectionManager.disconnect(websocket)
-        await connectionManager.broadcast(f"Client #{client_id} left the chat")
