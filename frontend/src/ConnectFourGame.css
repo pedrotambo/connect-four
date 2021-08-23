@@ -52,13 +52,9 @@ body {
     height: 45px;
     text-align: center;
     width: 45px;
-    cursor: pointer;
     border-radius: 5px;
     color: #fff;
     font-weight: 600;
-    &:focus {
-        outline: none;
-    }
 }
 
   

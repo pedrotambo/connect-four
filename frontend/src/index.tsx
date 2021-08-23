@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import ConnectFourGame from './ConnectFourGame';
 import reportWebVitals from './reportWebVitals';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import NavBar from './components/navbar/NavBar'
 
 const queryClient = new QueryClient();
 
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-    <ConnectFourGame />
+    <NavBar />
     </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
