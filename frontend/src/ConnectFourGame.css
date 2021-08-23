@@ -1,0 +1,64 @@
+.ConnectFourGame {
+    text-align: center;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+  
+.ConnectFourGame-header {
+    background-color: #282c34;
+    /* min-height: 100vh; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+} 
+  
+.ConnectFourGame-link {
+    color: #61dafb;
+}
+
+body {
+    /* margin: 20px; */
+    /* padding: 0; */
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    font-size: calc(10px + 2vmin);
+    /* color: white; */
+    /* font-family: sans-serif; */
+    /* background: #f4f4f4; */
+}
+
+.board {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.clear {
+    clear: both;
+    content: "";
+}
+
+.cell {
+    background: #7b7b7b;
+    border: 1px solid #fff;
+    float: left;
+    line-height: 45px;
+    height: 45px;
+    text-align: center;
+    width: 45px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: 600;
+    &:focus {
+        outline: none;
+    }
+}
+
+  

@@ -1,21 +1,29 @@
 import React from "react";
 
-const getCell = (cellStatus: number) => {
-    if (cellStatus > 1) {
-        return 456;
-    } else {
-        return 123;
+
+export enum CellStatus {
+    EMPTY,
+    PLAYER1,
+    PLAYER2
+}
+
+const getCell = (cellStatus: CellStatus) => {
+    switch(cellStatus) {
+        case CellStatus.EMPTY:
+            return "";
+        case CellStatus.PLAYER1:
+            return "🔵";
+        case CellStatus.PLAYER2:
+            return "🔴";
     }
 }
 
-function Cell({cellStatus}: {cellStatus: number}) {
+function Cell({cellStatus}: {cellStatus: CellStatus}) {
     return (
-        <div>
+        <div className="cell">
             {getCell(cellStatus)}
         </div>
     )
-    
 }
-
 
 export default Cell;
