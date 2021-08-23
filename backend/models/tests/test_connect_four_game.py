@@ -281,6 +281,6 @@ def test_all_columns_are_available_when_empty_game(game):
 def test_column_is_not_available_when_it_is_full(game):
     full_column_number = 0
     [game.drop_checker_on_column(c) for c in [full_column_number for _ in range(game.height)]]
-    assert full_column_number not in game.available_column_numbers()
+    assert full_column_number not in game.available_column_numbers
     for available_column_number in range(1, game.height):
-        assert available_column_number in game.available_column_numbers()
+        assert available_column_number in game.available_column_numbers

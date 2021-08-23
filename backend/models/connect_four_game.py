@@ -53,15 +53,16 @@ class ConnectFourGame:
     def player_2_name(self):
         return self._player_2_name
 
+    @property
+    def available_column_numbers(self):
+        return [column_number for column_number in range(self.width) if
+                self._next_free_row_number_by_column[column_number] < self.height]
+
     def board(self, player_name):
         if player_name not in [self.player_1_name, self.player_2_name]:
             raise ConnectFourException("Can't get board of non-playing player")
         player_1_board = [[self._board[x][y] for x in range(self.width)] for y in reversed(range(self.height))]
         return player_1_board if player_name == self.player_1_name else [list(reversed(row)) for row in player_1_board]
-
-    def available_column_numbers(self):
-        return [column_number for column_number in range(self.width) if
-                self._next_free_row_number_by_column[column_number] < self.height]
 
     def drop_checker_on_column(self, column_number):
         self._mutex.acquire()
