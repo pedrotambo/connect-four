@@ -5,8 +5,8 @@ import {
     Route, 
     Link
   } from "react-router-dom";
-import ConnectFourGame from '../../ConnectFourGame'
-import Home from '../../Home'
+import ConnectFourGame from '../game/ConnectFourGame'
+import Home from '../home/Home'
 
 function NavBar() {
     return <Router>
