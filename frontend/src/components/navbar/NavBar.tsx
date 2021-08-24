@@ -22,19 +22,19 @@ function NavBar() {
           <Link to="/player2">Player 2</Link>
         </li>
         <li>
-          <Link to="/singleplayer">Player 3</Link>
+          <Link to="/singleplayer">Singleplayer</Link>
         </li>
       </ul>
     </div>
     <Switch>
       <Route path="/player1">
-        <ConnectFourGame playerNumber={1} playerId={"1"} gameId={"multiPlayerGame"} refetchIntervalMs={1000} />
+        <ConnectFourGame playerNumber={1} playerId={"1"} gameId={"multiPlayerGame"} refetchIntervalMs={10000} singlePlayer={false} />
       </Route>
       <Route path="/player2">
-        <ConnectFourGame playerNumber={2} playerId={"2"} gameId={"multiPlayerGame"} refetchIntervalMs={1000} />
+        <ConnectFourGame playerNumber={2} playerId={"2"} gameId={"multiPlayerGame"} refetchIntervalMs={10000} singlePlayer={false}/>
       </Route>
       <Route path="/singleplayer">
-        <ConnectFourGame playerNumber={1} playerId={"3"} gameId={"singlePlayerGame"} refetchIntervalMs={3000} />
+        <ConnectFourGame playerNumber={1} playerId={"3"} gameId={"singlePlayerGame"} refetchIntervalMs={10000} singlePlayer={true}/>
       </Route>
       <Route path="/">
         <Home />

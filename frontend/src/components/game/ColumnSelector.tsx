@@ -20,8 +20,7 @@ function ColumnSelector({ playerNumber, playerId, columnNumber, columnSelectorSt
         <div className="column-selector">
             {columnSelectorStatus === ColumnSelectorStatus.AVAILABLE ?
                 <button disabled={!plays} className="column-selector-text" onClick={() => {
-                    onAvailableClickFunction();
-                    ConnectFourClient.dropChecker(playerId, columnNumber);
+                    ConnectFourClient.dropChecker(playerId, columnNumber).then(_ => onAvailableClickFunction());
                 }}>
                     {playerNumber === 1 ? "🔵" : "🔴"}
                 </button> :
