@@ -3,31 +3,37 @@ import './styles.css';
 import Board from './Board'
 import { useQuery } from 'react-query'
 import ConnectFourClient from '../../api/ConnectFourClient'
-import ColumnSelector from './ColumnSelector'
-import {ColumnSelectorStatus} from './ColumnSelector'
+import GameState from './GameState'
 
-function ConnectFourGame({playerNumber, playerId, gameId}: {playerNumber: number, playerId: string, gameId: string}) {
-  const { isLoading, isError, data, error } = useQuery(`player${playerNumber}_board`, () => ConnectFourClient.playerBoard(playerId), {refetchInterval: 300});
+function ConnectFourGame({ playerNumber, playerId, gameId, refetchIntervalMs }: { playerNumber: number, playerId: string, gameId: string, refetchIntervalMs: number }) {
+  const { isLoading, isError, data, error } = useQuery(`player${playerNumber}_board`, () => ConnectFourClient.playerBoard(playerId), { refetchInterval: refetchIntervalMs });
+  const a = Math.random() * (0 - 10) + 0;
+  let gameState: GameState | undefined = undefined;
   if (isLoading) {
     console.log("Loading...")
+  } else {
+    gameState = {
+      board: data.board,
+      plays: data.plays,
+      availableColumns: data.available_columns,
+      isOver: data.is_over,
+      wasWon: data.was_won,
+      winner: data.winner,
+      wasTied: data.was_tied
+    }
   }
+  
   return (
     <div className="ConnectFourGame">
-      <header className="ConnectFourGame-header"/>
-      <div>
+      <header className="ConnectFourGame-header" />
+      <div className="ConnectFourGameBody">
+        {isLoading && <p> ASDF </p>}
         {isError && <p> There was an error loading the board! Error: {error} </p>}
-        {data && !data.is_over && [0,1,2,3,4,5,6].map(i => {
-          return (<div key={i * 7 + 1000 * 6} className="asdf">
-          <ColumnSelector columnSelectorStatus={data.available_columns.includes(i) ? 
-            ColumnSelectorStatus.AVAILABLE : 
-            ColumnSelectorStatus.FULL} playerNumber={playerNumber} playerId={playerId} columnNumber={i} />
-        </div>)})}
         <div className="clear" />
-        {data && <Board width={7} height={6} boardData={data.board}></Board>}
-        {data && !data.is_over && data.plays && <p> It's your turn! </p>}
-        {data && !data.is_over && !data.plays && <p> It's opponent's turn... </p>}
-        {data && data.is_over && !data.was_tied && (data.winner === playerId? <p> Congratulations, You won!</p> : <p> Maybe next time!</p>)}
-        {data && data.is_over && <button onClick={() => ConnectFourClient.resetGame(gameId)}> Reset </button>}
+        {gameState && data && <Board key={a} width={7} height={6} playerId={playerId} gameState={gameState}
+          playerNumber={playerNumber} ></Board>}
+        {data && data.is_over && !data.was_tied && (data.winner === playerId ? <p> You won! 🥳🎉 </p> : <p> You Lost! 😭 </p>)}
+        {data && <button onClick={() => ConnectFourClient.resetGame(gameId)}> Reset </button>}
       </div>
     </div>
   );

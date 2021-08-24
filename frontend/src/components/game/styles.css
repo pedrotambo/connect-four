@@ -4,6 +4,13 @@
     margin: 0 auto;
     padding: 20px;
 }
+
+.ConnectFourGameBody {
+    text-align: center;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
   
 .ConnectFourGame-header {
     background-color: #282c34;
@@ -71,5 +78,3 @@ body {
     visibility: visible;
     font-size: calc(10px + 2vmin);
 }
-
-  

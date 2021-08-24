@@ -14,6 +14,9 @@ class ConnectFourRandomAIPlayer:
         return self._name
 
     def play(self):
-        if self._connect_four_game.current_player == self._name and not self._connect_four_game.is_over:
-            available_moves = self._connect_four_game.available_column_numbers
-            self._connect_four_game.drop_checker_on_column(available_moves[random.randint(0, len(available_moves) - 1)])
+        if not self._connect_four_game.current_player == self._name or self._connect_four_game.is_over:
+            raise ValueError("Can't play when it's not my turn or game is over.")
+        available_moves = self._connect_four_game.available_column_numbers(self._name)
+        self._connect_four_game.drop_checker_on_column(available_moves[random.randint(0, len(available_moves) - 1)])
+
+

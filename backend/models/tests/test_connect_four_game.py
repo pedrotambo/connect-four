@@ -256,13 +256,9 @@ def test_game_was_tied(game):
     2 2 2 1 2 2 2
     1 1 1 2 1 1 1
     """
-    # [game.drop_checker_on_column(c) for c in [0, 0, 1, 1, 2, 2, 0, 0, 1, 1, 2, 2, 0, 0, 1, 1, 2, 2, 4, 3, 3,
-    #                                           4, 5, 3, 3, 3, 3, 5, 6, 6, 4, 4, 5, 5, 6, 6, 4, 4, 5, 5, 6, 6]]
-    # moves = [0, 0, 1, 1, 2, 2, 0, 0, 1, 1, 2, 2, 0, 0, 1, 1, 2, 2, 4, 3, 3,
-    #  4, 5, 3, 3, 3, 3, 5, 6, 6, 4, 4, 5, 5, 6, 6, 4, 4, 5, 5, 6, 6]
-    ms = [0, 6, 1, 5, 2, 4, 0, 6, 1, 5, 2, 4, 0, 6, 1, 5, 2, 4, 4, 3, 3, 2, 5, 3, 3, 3, 3, 1, 6, 0, 4, 2, 5, 1, 6, 0, 4, 2, 5, 1, 6, 0]
-    [game.drop_checker_on_column(c) for c in ms]
-    # translate = [ col if (i % 2 ) == 0 else - col + 7 - 1 for (i, col) in enumerate(moves) ]
+    [game.drop_checker_on_column(c) for c in
+     [0, 6, 1, 5, 2, 4, 0, 6, 1, 5, 2, 4, 0, 6, 1, 5, 2, 4, 4, 3, 3, 2, 5, 3, 3, 3, 3, 1, 6, 0, 4, 2, 5, 1, 6, 0, 4, 2,
+      5, 1, 6, 0]]
     assert game.is_over
     assert game.was_tied
     assert not game.was_won
@@ -278,9 +274,8 @@ def test_game_was_tied(game):
 
 
 def test_all_columns_are_available_when_empty_game(game):
-    assert game.available_column_numbers == list(range(game.width))
-    assert game.available_column_numbers2(game.player_1_name) == list(range(game.width))
-    assert game.available_column_numbers2(game.player_2_name) == list(range(game.width))
+    assert game.available_column_numbers(game.player_1_name) == list(range(game.width))
+    assert game.available_column_numbers(game.player_2_name) == list(range(game.width))
 
 
 def test_cant_ask_available_columns_for_non_playing_player(game):
@@ -288,13 +283,13 @@ def test_cant_ask_available_columns_for_non_playing_player(game):
     assert game.player_1_name != no_player
     assert game.player_2_name != no_player
     with pytest.raises(ConnectFourException) as ex:
-        game.available_column_numbers2(no_player)
+        game.available_column_numbers(no_player)
     assert (str(ex.value)) == "Can't get available moves of non-playing player."
 
 
 def test_column_is_not_available_when_it_is_full(game):
     full_column_number = 0
     [game.drop_checker_on_column(c) for c in [0, 6, 0, 6, 0, 6]]
-    assert full_column_number not in game.available_column_numbers
+    assert full_column_number not in game.available_column_numbers(game.player_1_name)
     for available_column_number in range(1, game.height):
-        assert available_column_number in game.available_column_numbers
+        assert available_column_number in game.available_column_numbers(game.player_1_name)

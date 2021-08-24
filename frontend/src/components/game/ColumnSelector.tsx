@@ -7,23 +7,25 @@ export enum ColumnSelectorStatus {
     FULL
 }
 
-function availableOnClickFunction (playerId: string, columnNumber: number) {
-    return () =>  ConnectFourClient.dropChecker(playerId, columnNumber);
-};
-    
-
-function ColumnSelector({playerNumber, playerId, columnNumber, columnSelectorStatus}: 
-    {   playerNumber: number,
+function ColumnSelector({ playerNumber, playerId, columnNumber, columnSelectorStatus, onAvailableClickFunction, plays }:
+    {
+        playerNumber: number,
         playerId: string,
         columnNumber: number,
-        columnSelectorStatus: ColumnSelectorStatus} ) {
+        onAvailableClickFunction: () => any,
+        columnSelectorStatus: ColumnSelectorStatus,
+        plays: boolean
+    }) {
     return (
         <div className="column-selector">
-            { columnSelectorStatus === ColumnSelectorStatus.AVAILABLE ?
-                <button className="column-selector-text" onClick={availableOnClickFunction(playerId, columnNumber)}>
+            {columnSelectorStatus === ColumnSelectorStatus.AVAILABLE ?
+                <button disabled={!plays} className="column-selector-text" onClick={() => {
+                    onAvailableClickFunction();
+                    ConnectFourClient.dropChecker(playerId, columnNumber);
+                }}>
                     {playerNumber === 1 ? "🔵" : "🔴"}
                 </button> :
-                <button className="column-selector-text" onClick={() => alert("I'm an alert!")}>
+                <button disabled={!plays} className="column-selector-text" onClick={() => alert("Column is full! Please choose another column")}>
                     {"✖"}
                 </button>
 
