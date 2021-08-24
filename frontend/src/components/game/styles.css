@@ -78,3 +78,12 @@ body {
     visibility: visible;
     font-size: calc(10px + 2vmin);
 }
+
+.checker {
+    transition: transform 1s;
+    font-size: calc(10px + 2vmin);
+}
+
+.checker.checker-falling {
+    visibility: visible;
+}

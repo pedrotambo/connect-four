@@ -29,7 +29,8 @@ function Board({ width, height, playerNumber, playerId, gameState, refetchGameSt
         return (<div key={i * 7 + 1000 * 6}>
           <ColumnSelector columnSelectorStatus={gameState.availableColumns.includes(i) ?
             ColumnSelectorStatus.AVAILABLE :
-            ColumnSelectorStatus.FULL} playerNumber={playerNumber} playerId={playerId} columnNumber={i} plays={gameState.plays && !gameState.isOver} onAvailableClickFunction={() => {
+            ColumnSelectorStatus.FULL} playerNumber={playerNumber} playerId={playerId} columnNumber={i} nextFreeRow={[5, 4, 3, 2, 1, 0].find(row => gameState.board[row][i] === 0) || -1}
+            plays={gameState.plays && !gameState.isOver} onAvailableClickFunction={() => {
               refetchGameState()
             }} />
         </div>)

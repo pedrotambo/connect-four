@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route,
   Link
@@ -9,7 +9,7 @@ import ConnectFourGame from '../game/ConnectFourGame'
 import Home from '../home/Home'
 
 function NavBar() {
-  return <Router>
+  return <Router basename="/#">
     <div className="NavBar">
       <ul>
         <li>
@@ -28,13 +28,13 @@ function NavBar() {
     </div>
     <Switch>
       <Route path="/player1">
-        <ConnectFourGame playerNumber={1} playerId={"1"} gameId={"multiPlayerGame"} refetchIntervalMs={10000} singlePlayer={false} />
+        <ConnectFourGame playerNumber={1} playerId={"1"} gameId={"multiPlayerGame"} refetchIntervalMs={1000} singlePlayer={false} />
       </Route>
       <Route path="/player2">
-        <ConnectFourGame playerNumber={2} playerId={"2"} gameId={"multiPlayerGame"} refetchIntervalMs={10000} singlePlayer={false}/>
+        <ConnectFourGame playerNumber={2} playerId={"2"} gameId={"multiPlayerGame"} refetchIntervalMs={1000} singlePlayer={false}/>
       </Route>
       <Route path="/singleplayer">
-        <ConnectFourGame playerNumber={1} playerId={"3"} gameId={"singlePlayerGame"} refetchIntervalMs={10000} singlePlayer={true}/>
+        <ConnectFourGame playerNumber={1} playerId={"3"} gameId={"singlePlayerGame"} refetchIntervalMs={1000} singlePlayer={true}/>
       </Route>
       <Route path="/">
         <Home />
