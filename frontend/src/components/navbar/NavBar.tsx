@@ -25,10 +25,10 @@ function NavBar() {
     </div>
     <Switch>
         <Route path="/player1">
-            <ConnectFourGame player_number={1} />
+            <ConnectFourGame playerNumber={1} playerId={"1"}/>
         </Route>
         <Route path="/player2">
-            <ConnectFourGame player_number={2} />
+            <ConnectFourGame playerNumber={2} playerId={"2"} />
         </Route>
         <Route path="/">
             <Home />

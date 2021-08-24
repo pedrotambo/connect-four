@@ -7,7 +7,6 @@
   
 .ConnectFourGame-header {
     background-color: #282c34;
-    /* min-height: 100vh; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,22 +20,8 @@
 }
 
 body {
-    /* margin: 20px; */
-    /* padding: 0; */
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* align-items: center; */
-    /* justify-content: center; */
-    font-size: calc(10px + 2vmin);
-    /* color: white; */
-    /* font-family: sans-serif; */
-    /* background: #f4f4f4; */
-}
-
-.board {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
+    /* font-size: calc(10px + 2vmin); */
+    font-size: calc(5px + 2vmin);
 }
 
 .clear {
@@ -55,6 +40,36 @@ body {
     border-radius: 5px;
     color: #fff;
     font-weight: 600;
+}
+
+.column-selector {
+    background: rgb(230, 229, 229);
+    border: 1px solid #fff;
+    float: left;
+    line-height: 45px;
+    height: 45px;
+    text-align: center;
+    width: 45px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.column-selector .column-selector-text {
+    visibility: hidden;
+    background: transparent;
+    border: 1px solid #fff;
+    float: left;
+    line-height: 45px;
+    height: 45px;
+    text-align: center;
+    width: 45px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.column-selector:hover .column-selector-text {
+    visibility: visible;
+    font-size: calc(10px + 2vmin);
 }
 
   

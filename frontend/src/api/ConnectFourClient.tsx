@@ -1,12 +1,18 @@
 import axios from "axios";
 
-const player_board = (player_id: number) => {
-    return axios.get(`http://localhost:8000/games/${player_id.toString()}`)
+const playerBoard = (playerId: string) => {
+    return axios.get(`http://localhost:8000/games/${playerId}`)
+                .then(response => response.data);
+}
+
+const dropChecker = (playerId: string, columnNumber: number) => {
+    return axios.get(`http://localhost:8000/games/${playerId}/drops/${columnNumber.toString()}`)
                 .then(response => response.data);
 }
 
 const queries = {
-    player_board,
+    playerBoard,
+    dropChecker,
 }
 
 export default queries;

@@ -29,7 +29,11 @@ def get_board(player_id: str):
     game = game_repository[multiplayer_game_id]
     return {"board": game.board(player_id),
             "plays": True if game.current_player == player_id else False,
-            "available_columns": game.available_column_numbers2(player_id)}
+            "available_columns": game.available_column_numbers2(player_id),
+            "is_over": game.is_over,
+            "was_won": game.was_won,
+            "winner": game.winner,
+            "was_tied": game.was_tied}
 
 
 @app.get("/games/{player_id}/drops/{column_number}")
