@@ -27,7 +27,9 @@ def get_board(player_id: str):
     if player_id not in [player_1_id, player_2_id]:
         raise HTTPException(status_code=404, detail="Player not found")
     game = game_repository[multiplayer_game_id]
-    return {"board": game.board(player_id), "plays": True if game.current_player == player_id else False}
+    return {"board": game.board(player_id),
+            "plays": True if game.current_player == player_id else False,
+            "available_columns": game.available_column_numbers2(player_id)}
 
 
 @app.get("/games/{player_id}/drops/{column_number}")

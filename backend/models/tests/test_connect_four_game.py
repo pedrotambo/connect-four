@@ -29,7 +29,7 @@ def test_cant_get_board_of_non_player(game):
 
     with pytest.raises(ConnectFourException) as ex:
         game.board("non-playing player")
-    assert (str(ex.value)) == "Can't get board of non-playing player"
+    assert (str(ex.value)) == "Can't get board of non-playing player."
 
 
 def test_starts_playing_1(game):
@@ -52,11 +52,9 @@ def test_plays_1_after_2(game):
 
 
 def test_cant_put_more_discs_in_same_column_than_board_height():
-    height = 7
-    game = ConnectFourGame(6, height, "player1", "player2")
+    game = ConnectFourGame(7, 6, "player1", "player2")
     column_number = 0
-    for i in range(height):
-        game.drop_checker_on_column(column_number)
+    [game.drop_checker_on_column(c) for c in [0, 6, 0, 6, 0, 6]]
     with pytest.raises(ConnectFourException) as ex:
         game.drop_checker_on_column(column_number)
     assert (str(ex.value)) == f'Column {column_number} is full.'
@@ -72,7 +70,7 @@ def test_player_1_wins_horizontally_at_the_beginning_of_first_row(game):
     2 2 2 0 0 0 0
     1 1 1 1 0 0 0
     """
-    [game.drop_checker_on_column(c) for c in [0, 0, 1, 1, 2, 2, 3]]
+    [game.drop_checker_on_column(c) for c in [0, 6, 1, 5, 2, 4, 3]]
     assert game.was_won
     assert game.winner == "player1"
     assert game.is_over
@@ -96,7 +94,7 @@ def test_player_1_wins_horizontally_at_the_end_of_first_row(game):
     1 2 2 0 0 0 0
     1 2 2 1 1 1 1
     """
-    [game.drop_checker_on_column(c) for c in [0, 1, 0, 1, 3, 0, 4, 2, 5, 2, 6]]
+    [game.drop_checker_on_column(c) for c in [0, 5, 0, 5, 3, 6, 4, 4, 5, 4, 6]]
     assert game.was_won
     assert game.winner == "player1"
     assert game.is_over
@@ -120,7 +118,7 @@ def test_player_1_wins_vertically_at_the_beginning_of_first_column(game):
     1 2 0 0 0 0 0
     1 2 0 0 0 0 0
     """
-    [game.drop_checker_on_column(c) for c in [0, 1, 0, 1, 0, 1, 0]]
+    [game.drop_checker_on_column(c) for c in [0, 5, 0, 5, 0, 5, 0]]
     assert game.was_won
     assert game.winner == "player1"
     assert game.is_over
@@ -144,7 +142,7 @@ def test_player_1_wins_vertically_at_end_of_first_column(game):
     2 1 0 0 0 0 0
     2 1 2 0 0 0 0
     """
-    [game.drop_checker_on_column(c) for c in [1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 2, 0]]
+    [game.drop_checker_on_column(c) for c in [1, 6, 1, 6, 1, 5, 0, 5, 0, 5, 0, 4, 0]]
     assert game.was_won
     assert game.winner == "player1"
     assert game.board("player1") == [
@@ -167,7 +165,7 @@ def test_player_1_wins_diagonally_at_beginning_of_the_main_diagonal(game):
     2 1 2 2 0 0 0
     1 2 2 1 0 0 0
     """
-    [game.drop_checker_on_column(c) for c in [3, 3, 3, 2, 3, 2, 0, 1, 1, 0, 2]]
+    [game.drop_checker_on_column(c) for c in [3, 3, 3, 4, 3, 4, 0, 5, 1, 6, 2]]
     assert game.was_won
     assert game.winner == "player1"
     assert game.is_over
@@ -191,7 +189,7 @@ def test_player_1_wins_diagonally_at_end_of_the_main_diagonal(game):
     0 0 0 2 1 1 1
     0 0 0 1 2 2 1
     """
-    [game.drop_checker_on_column(c) for c in [3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 5, 6, 6, 5, 6, 6, 5, 6]]
+    [game.drop_checker_on_column(c) for c in [3, 3, 3, 2, 4, 2, 4, 1, 5, 1, 6, 1, 6, 0, 5, 0, 6, 1, 6]]
     assert game.was_won
     assert game.winner == "player1"
     assert game.is_over
@@ -215,7 +213,7 @@ def test_player_1_wins_diagonally_at_the_beginning_of_the_anti_diagonal(game):
     0 0 0 1 1 1 2
     0 0 0 2 2 2 1
     """
-    [game.drop_checker_on_column(c) for c in [6, 5, 5, 4, 4, 6, 4, 3, 3, 3, 3]]
+    [game.drop_checker_on_column(c) for c in [6, 1, 5, 2, 4, 0, 4, 3, 3, 3, 3]]
     assert game.was_won
     assert game.winner == "player1"
     assert game.is_over
@@ -258,8 +256,13 @@ def test_game_was_tied(game):
     2 2 2 1 2 2 2
     1 1 1 2 1 1 1
     """
-    [game.drop_checker_on_column(c) for c in [0, 0, 1, 1, 2, 2, 0, 0, 1, 1, 2, 2, 0, 0, 1, 1, 2, 2, 4, 3, 3,
-                                              4, 5, 3, 3, 3, 3, 5, 6, 6, 4, 4, 5, 5, 6, 6, 4, 4, 5, 5, 6, 6]]
+    # [game.drop_checker_on_column(c) for c in [0, 0, 1, 1, 2, 2, 0, 0, 1, 1, 2, 2, 0, 0, 1, 1, 2, 2, 4, 3, 3,
+    #                                           4, 5, 3, 3, 3, 3, 5, 6, 6, 4, 4, 5, 5, 6, 6, 4, 4, 5, 5, 6, 6]]
+    # moves = [0, 0, 1, 1, 2, 2, 0, 0, 1, 1, 2, 2, 0, 0, 1, 1, 2, 2, 4, 3, 3,
+    #  4, 5, 3, 3, 3, 3, 5, 6, 6, 4, 4, 5, 5, 6, 6, 4, 4, 5, 5, 6, 6]
+    ms = [0, 6, 1, 5, 2, 4, 0, 6, 1, 5, 2, 4, 0, 6, 1, 5, 2, 4, 4, 3, 3, 2, 5, 3, 3, 3, 3, 1, 6, 0, 4, 2, 5, 1, 6, 0, 4, 2, 5, 1, 6, 0]
+    [game.drop_checker_on_column(c) for c in ms]
+    # translate = [ col if (i % 2 ) == 0 else - col + 7 - 1 for (i, col) in enumerate(moves) ]
     assert game.is_over
     assert game.was_tied
     assert not game.was_won
@@ -275,12 +278,23 @@ def test_game_was_tied(game):
 
 
 def test_all_columns_are_available_when_empty_game(game):
-    assert game.available_column_numbers() == list(range(game.width))
+    assert game.available_column_numbers == list(range(game.width))
+    assert game.available_column_numbers2(game.player_1_name) == list(range(game.width))
+    assert game.available_column_numbers2(game.player_2_name) == list(range(game.width))
+
+
+def test_cant_ask_available_columns_for_non_playing_player(game):
+    no_player = "no_player"
+    assert game.player_1_name != no_player
+    assert game.player_2_name != no_player
+    with pytest.raises(ConnectFourException) as ex:
+        game.available_column_numbers2(no_player)
+    assert (str(ex.value)) == "Can't get available moves of non-playing player."
 
 
 def test_column_is_not_available_when_it_is_full(game):
     full_column_number = 0
-    [game.drop_checker_on_column(c) for c in [full_column_number for _ in range(game.height)]]
+    [game.drop_checker_on_column(c) for c in [0, 6, 0, 6, 0, 6]]
     assert full_column_number not in game.available_column_numbers
     for available_column_number in range(1, game.height):
         assert available_column_number in game.available_column_numbers
