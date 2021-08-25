@@ -1,0 +1,40 @@
+DB -> Key value in file system -> in future replace for real db
+
+
+
+WebSockets vs SSE
+Both could work because allow server pushes, but WebSocketse it's also bidirectional
+But as we are not doing client pushes, SSEs fits better because comes with advantages like:
+- automatic reconnection
+- event IDs
+
+Also websocketes might be complex, SSEs is simpler but isn't extensible.
+
+
+We could use bidirectionally websockets.
+However, when you need to scale your solution you will want to separate writes from reads, and if you are doing everything through the same websocket, it will be not possible
+
+
+WebSockets worse for cellphones because they need to maintain connection
+WebSockets better for horizontal scale because you can put a "event bus?" or is the same for SSE
+
+react-query gives you free polling so i discharged websockets.
+
+
+
+Might want to use sockets as this game is not a chat where is constant communication.
+A player might be some minutes thinking and we wouldn't want to waste resources quering every 5 seconds.
+
+
+cuando le paso por arriba a la bolita aparece el cursor de texto
+
+
+
+https://dev.to/liamsc/fast-setup-of-a-typescript-react-project-h1j
+
+npm install msw --save-dev
+
+
+Problema de concurrencia para jugar ...?
+
+Test para que la AI no juega cuando no haya movimientos habilitados

@@ -30,7 +30,9 @@ The development process involved:
 
 #### Game Logic
 Was built based on the principle of maintaining a state and having a single point of mutability:
+
 ```GameState + Input -> GameState'```
+
 As a side note, the development was made using TDD.
 
 #### Persistence
