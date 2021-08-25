@@ -29,10 +29,9 @@ The development process involved:
 ## Design
 
 #### Game Logic
-Was built based on the principle of maintaining a state and having a single point of mutability:
+Because of the characteristic of this game, it was built based on the principle of maintaining a state and having a single point of mutability to minimize the chances of introcuding bugs:
 
 ```GameState + Input -> GameState'```
-
 As a side note, the development was made using TDD.
 
 #### Persistence
