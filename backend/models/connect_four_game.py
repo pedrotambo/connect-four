@@ -51,11 +51,6 @@ class ConnectFourGame:
     def player_2_name(self):
         return self._player_2_name
 
-    # @property
-    # def available_column_numbers(self):
-    #     return [column_number for column_number in range(self.width) if
-    #             self._next_free_row_number_by_column[column_number] < self.height]
-
     def available_column_numbers(self, player_name):
         if player_name not in [self.player_1_name, self.player_2_name]:
             raise ConnectFourException("Can't get available moves of non-playing player.")

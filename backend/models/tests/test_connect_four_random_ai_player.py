@@ -1,5 +1,5 @@
 import pytest
-from models.connect_four_game import ConnectFourGame, ConnectFourException
+from models.connect_four_game import ConnectFourGame
 from models.connect_four_random_ai_player import ConnectFourRandomAIPlayer
 
 
