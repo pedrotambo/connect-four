@@ -1,3 +1,4 @@
+import time
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pickleshare import PickleShareDB
@@ -51,6 +52,7 @@ def drop_checker(player_id: str, column_number: int):
     if game.current_player == player_id:
         game.drop_checker_on_column(column_number)
         if game_id == single_player_game_id and not game.is_over:
+            time.sleep(3)
             ConnectFourRandomAIPlayer(ai_player_id, game).play()
         game_repository[game_id] = game
         return {"message": "successful move"}

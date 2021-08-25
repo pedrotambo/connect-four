@@ -18,15 +18,17 @@ function ColumnSelector({ playerNumber, playerId, columnNumber, columnSelectorSt
         nextFreeRow: number
     }) {
     const [isFalling, setIsFalling] = useState(false);
-    const onClick = () => {
+    const onClick = async () => {
         setIsFalling(true);
-        return ConnectFourClient.dropChecker(playerId, columnNumber).then(_ => onAvailableClickFunction()).then(_ => setIsFalling(false));
+        ConnectFourClient.dropChecker(playerId, columnNumber);
+        setTimeout(async () => {
+            await onAvailableClickFunction();
+            setIsFalling(false);
+        }, 500);
     }
 
-    const checkerStyle = {
-        transform: isFalling ? `translate(0px,${47 * (nextFreeRow + 1)}px)` : '',
-        // transition: isFalling ? 'translate 1s' : 'translate 0s'
-    };
+    const checkerStyle = { transform: isFalling ? `translate(0px,${47 * (nextFreeRow + 1)}px)` : '' };
+    console.log(checkerStyle);
     return (
         <div className="column-selector">
             {columnSelectorStatus === ColumnSelectorStatus.AVAILABLE ?
@@ -38,7 +40,6 @@ function ColumnSelector({ playerNumber, playerId, columnNumber, columnSelectorSt
                 <button disabled={!plays} className="column-selector-text" onClick={() => alert("Column is full! Please choose another column")}>
                     {"✖"}
                 </button>
-
             }
         </div>
     )

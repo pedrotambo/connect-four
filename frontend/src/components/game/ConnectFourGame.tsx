@@ -28,7 +28,9 @@ function ConnectFourGame({ playerNumber, playerId, gameId, refetchIntervalMs, si
         <div className="clear" />
         {gameState && <Board width={7} height={6} playerId={playerId} gameState={gameState}
           playerNumber={playerNumber} refetchGameState={refetch} ></Board>}
+        <br/>
         {gameState && <button onClick={() => ConnectFourClient.resetGame(gameId).then(refetch)}> Reset </button>}
+        {gameState && !gameState.isOver && (gameState.plays ? <p> It's your turn! </p> : <p> Waiting for your opponent... </p>)}
         {gameState && gameState.isOver && !gameState.wasTied && (gameState.winner === playerId ? <p> You won! 🥳🎉 </p> : <p> You Lost! 😭 </p>)}
         {gameState && gameState.isOver && gameState.wasTied && <p> It's a tie! </p>}
       </div>

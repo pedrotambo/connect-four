@@ -18,7 +18,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: calc(10px + 2vmin);
+    /* font-size: calc(10px + 2vmin); */
     color: white;
 } 
   
@@ -27,8 +27,12 @@
 }
 
 body {
-    font-size: calc(10px + 2vmin);
+    /* font-size: calc(10px + 2vmin); */
     /* font-size: calc(5px + 2vmin); */
+}
+
+.board {
+    font-size: calc(12px + 2vmin);
 }
 
 .clear {
@@ -62,7 +66,6 @@ body {
 }
 
 .column-selector .column-selector-text {
-    visibility: hidden;
     background: transparent;
     border: 1px solid #fff;
     float: left;
@@ -75,15 +78,11 @@ body {
 }
 
 .column-selector:hover .column-selector-text {
-    visibility: visible;
-    font-size: calc(10px + 2vmin);
+    background: #c7c4c4;
 }
 
 .checker {
     transition: transform 1s;
-    font-size: calc(10px + 2vmin);
+    font-size: calc(12px + 2vmin);
 }
 
-.checker.checker-falling {
-    visibility: visible;
-}
