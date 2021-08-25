@@ -3,7 +3,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pickleshare import PickleShareDB
 from models.connect_four_game import ConnectFourGame
-from models.connect_four_random_ai_player import ConnectFourRandomAIPlayer
 from models.connect_four_simplistic_ai_player import ConnectFourSimplisticAIPlayer
 
 

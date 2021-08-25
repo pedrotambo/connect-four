@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// const baseBackendUrl = 'http://ec2-54-87-213-213.compute-1.amazonaws.com:8000';
-const baseBackendUrl = 'http://localhost:8000';
+const baseBackendUrl = 'http://ec2-54-87-213-213.compute-1.amazonaws.com:8000';
 
 const playerBoard = (playerId: string) => {
     return axios.get(`${baseBackendUrl}/games/${playerId}`)
